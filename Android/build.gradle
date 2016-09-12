@@ -72,6 +72,12 @@ android {
             keyAlias getAppKey()
             keyPassword getAppKeyPassword()
         }
+        debug {
+            storeFile file('D:/mydroid.jks')
+            storePassword '123456'
+            keyAlias 'mydroidkey'
+            keyPassword '123456'
+        }
         config {
             keyAlias 'key'
             keyPassword '123456'
