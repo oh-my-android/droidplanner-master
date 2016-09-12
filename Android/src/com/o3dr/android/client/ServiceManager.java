@@ -94,6 +94,8 @@ public class ServiceManager {
         serviceListener = listener;
 
       //  if (is3DRServicesInstalled())
+            serviceIntent.setAction("com.playuav.android.lib.model.IDroidPlannerServices");
+            serviceIntent.setPackage("com.playuav.android.lib.model");
             context.bindService(serviceIntent, o3drServicesConnection, Context.BIND_AUTO_CREATE);
       //  else
       //      promptFor3DRServicesInstall();
