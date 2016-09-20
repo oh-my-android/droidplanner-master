@@ -79,8 +79,9 @@ public class DroidPlannerApp extends Application implements DroneListener, Servi
         if(notificationHandler == null) {
             notificationHandler = new NotificationHandler(getApplicationContext(), drone);
         }
-
+        Log.e("Tag","onServiceConnected()");//这里也没执行，呵呵哒
         if(!drone.isStarted()) {
+            //发现这里都没执行
             this.drone.start();
             this.drone.registerDroneListener(this);
         }

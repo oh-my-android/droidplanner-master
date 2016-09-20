@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,7 +30,7 @@ import com.playuav.android.widgets.actionProviders.InfoBarActionProvider;
 
 /**
  * Parent class for the app activity classes.
- */
+        */
 public abstract class SuperUI extends ActionBarActivity implements DroidPlannerApp.ApiListener {
 
     private static final IntentFilter superIntentFilter = new IntentFilter();
@@ -200,7 +201,7 @@ public abstract class SuperUI extends ActionBarActivity implements DroidPlannerA
         } else {
             menu.setGroupEnabled(R.id.menu_group_connected, false);
             menu.setGroupVisible(R.id.menu_group_connected, false);
-
+            //设置“连接”标题
             toggleConnectionItem.setTitle(R.string.menu_connect);
 
             if (infoBar != null) {
@@ -220,6 +221,7 @@ public abstract class SuperUI extends ActionBarActivity implements DroidPlannerA
 
         switch (item.getItemId()) {
             case R.id.menu_connect:
+                Log.e("TAG","测试连接按钮是否执行");//按钮正常
                 toggleDroneConnection();
                 return true;
 
@@ -268,7 +270,6 @@ public abstract class SuperUI extends ActionBarActivity implements DroidPlannerA
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -276,9 +277,14 @@ public abstract class SuperUI extends ActionBarActivity implements DroidPlannerA
 
     public void toggleDroneConnection() {
         final Drone drone = dpApp.getDrone();
+        Log.e("TAG","测试开启连接功能是否正常");//程序顺利执行这里
         if (drone.isConnected())
+        {  Log.e("TAG","测试能否进入if判断");//log没打印，查看isConnected()方法
             dpApp.disconnectFromDrone();
+        }
         else
             dpApp.connectToDrone();
+            dpApp.onServiceConnected();//凭推断，这里尝试添加个服务连接，测试
+
     }
 }

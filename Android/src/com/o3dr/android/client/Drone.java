@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.o3dr.android.client.interfaces.DroneListener;
 import com.o3dr.services.android.lib.coordinate.LatLong;
@@ -81,6 +82,7 @@ public class Drone {
     }
 
     public void start() {
+        Log.e("Tag","start()");//发现这个方法根本没进入
         if (!serviceMgr.isServiceConnected())
             throw new IllegalStateException("Service manager must be connected.");
 
@@ -88,8 +90,12 @@ public class Drone {
             return;
 
         try {
+            //下面这行代码还是依赖谷歌3dr服务的感觉
             this.droneApi = serviceMgr.get3drServices().registerDroneApi(this.apiListener,
                     serviceMgr.getApplicationId());
+            if (this.droneApi == null){
+                Log.e("Tag","droneApi果然是空的。尴尬");
+            }
         } catch (RemoteException e) {
             throw new IllegalStateException("Unable to retrieve a valid drone handle.");
         }
@@ -283,10 +289,18 @@ public class Drone {
     }
 
     public boolean isStarted() {
+        //当droneApi不为null,则返回true
+        Log.e("TAG","droneApi="+droneApi);
         return droneApi != null;
     }
 
     public boolean isConnected() {
+        //当isStarted()和getState().isConnected()同时为true的时候，才返回true;
+        //分析isStarted()
+        //分析getState().isConnected()    找出问题
+        Log.e("TAG","这里肯定有执行,验证下推断");//果真证实了
+        Log.e("Tag","isStarted="+isStarted()+"  getState().isConnected()="+getState().isConnected());
+        //根据log信息，下面两个都为false
         return isStarted() && getState().isConnected();
     }
 
